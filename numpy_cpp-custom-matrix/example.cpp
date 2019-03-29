@@ -52,6 +52,25 @@ Matrix<double> Multiply(const Matrix<double> &a, const Matrix<double> &b,
   return ret;
 }
 
+Matrix<double> Transpose(const Matrix<double> &a, const Matrix<double> &b,
+    const int m, const int n) {
+  Matrix<double> ret(b.shape());
+  for (int i = 0; i < m; i++) {
+    for (int j = 0; j < n; j++) {
+        ret[i + j * m] = a[i * n + j];
+    }
+  }
+  return ret;
+}
+
+double Exp(const double a) {
+  double ret = 1;
+  int terms = 1000;
+  for (int i = terms - 1; i > 0; --i )
+    ret = 1 + a * ret / i;
+  return ret;
+}
+
 // Python interface
 
 namespace py = pybind11;
@@ -63,4 +82,6 @@ PYBIND11_MODULE(example,m)
   m.def("Subtract", &Subtract);
   m.def("ScalarMultiply", &ScalarMultiply);
   m.def("Multiply", &Multiply);
+  m.def("Transpose", &Transpose);
+  m.def("Exp", &Exp);
 }

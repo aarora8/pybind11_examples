@@ -26,3 +26,12 @@ C = np.array([[0,0,0],[0,0,0]])
 print("A = ", A)
 print("B = ", B)
 print("A * B = ", example.Multiply(A,B,C,2,2,3))
+
+print()
+A = np.array([[1,1,1],[2,2,2]])
+C = np.array([[0,0],[0,0],[0,0]])
+print("A = ", A)
+print("A Transpose = ", example.Transpose(A,C,2,3))
+
+a = 10
+print("a Exponential = ", example.Exp(a))
