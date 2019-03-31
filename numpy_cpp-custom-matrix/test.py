@@ -33,4 +33,4 @@ print("A Transpose = ", example.Transpose(A))
 
 A = np.array([[1,2,3],[4,5,6]])
 print("A = ", A)
-print("a Exponential = ", example.Exp(A))
+print("A Exponential = ", example.Exp(A))

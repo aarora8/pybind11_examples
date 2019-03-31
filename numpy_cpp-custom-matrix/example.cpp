@@ -66,20 +66,18 @@ Matrix<double> Transpose(const Matrix<double> &a) {
   return ret;
 }
 
+double Get_exp(const double a) {
+  double ret = 1;
+  int terms = 1000;
+  for (int i = terms - 1; i > 0; --i )
+    ret = 1 + a * ret / i;
+  return ret;
+}
+
 Matrix<double> Exp(const Matrix<double> &a) {
   Matrix<double> ret(a.shape());
-  size_t rows =  a.shape()[0];
-  size_t cols = a.shape()[1];
-  for (int i = 0; i < rows; i++) {
-    for (int j = 0; j < cols; j++) {
-      double element_val = a[i * cols + j];
-      double exp_val = 1;
-      int terms = 1000;
-      for (int k = terms - 1; k > 0; --k ) {
-        exp_val = 1 + element_val*exp_val/k;
-      }
-      ret[i * cols + j] = exp_val;
-    }
+  for (int i=0; i < a.size(); i++) {
+      ret[i] = Get_exp(a[i]);
   }
   return ret;
 }
