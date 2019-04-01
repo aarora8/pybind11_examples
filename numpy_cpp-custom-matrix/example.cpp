@@ -38,9 +38,7 @@ Matrix<double> Multiply(const Matrix<double> &a, const Matrix<double> &b) {
   size_t b_cols = b.shape()[1];
   if (a_cols != b_rows)
     throw std::length_error("Matrix 'a' and 'b' are inconsistent");
-  std::vector<size_t> shape(2);
-  shape[0] = a_rows;
-  shape[1] = b_cols;
+  std::vector<size_t> shape = {a_rows, b_cols};
   Matrix<double> ret(shape);
   for (int i = 0; i < a_rows; i++) {
     for (int j = 0; j < b_cols; j++) {
@@ -56,9 +54,7 @@ Matrix<double> Multiply(const Matrix<double> &a, const Matrix<double> &b) {
 Matrix<double> Transpose(const Matrix<double> &a) {
   size_t rows =  a.shape()[0];
   size_t cols = a.shape()[1];
-  std::vector<size_t> shape(2);
-  shape[0] = cols;
-  shape[1] = rows;
+  std::vector<size_t> shape = {cols, rows};
   Matrix<double> ret(shape);
   for (int i = 0; i < rows; i++) {
     for (int j = 0; j < cols; j++) {
