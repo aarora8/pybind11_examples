@@ -38,8 +38,8 @@ Matrix<double> Multiply(const Matrix<double> &a, const Matrix<double> &b) {
   size_t b_cols = b.shape()[1];
   if (a_cols != b_rows)
     throw std::length_error("Matrix 'a' and 'b' are inconsistent");
-  std::vector<size_t> shape = {a_rows, b_cols};
-  Matrix<double> ret(shape);
+  std::vector<size_t> mat_dimension = {a_rows, b_cols};
+  Matrix<double> ret(mat_dimension);
   for (int i = 0; i < a_rows; i++) {
     for (int j = 0; j < b_cols; j++) {
       ret[j + i * b_cols] = 0;
@@ -54,8 +54,8 @@ Matrix<double> Multiply(const Matrix<double> &a, const Matrix<double> &b) {
 Matrix<double> Transpose(const Matrix<double> &a) {
   size_t rows =  a.shape()[0];
   size_t cols = a.shape()[1];
-  std::vector<size_t> shape = {cols, rows};
-  Matrix<double> ret(shape);
+  std::vector<size_t> mat_dimension = {cols, rows};
+  Matrix<double> ret(mat_dimension);
   for (int i = 0; i < rows; i++) {
     for (int j = 0; j < cols; j++) {
       ret[i + j * rows] = a[i * cols + j];
@@ -64,18 +64,10 @@ Matrix<double> Transpose(const Matrix<double> &a) {
   return ret;
 }
 
-double Get_exp(const double a) {
-  double ret = 1;
-  int terms = 1000;
-  for (int i = terms - 1; i > 0; --i )
-    ret = 1 + a * ret / i;
-  return ret;
-}
-
 Matrix<double> Exp(const Matrix<double> &a) {
   Matrix<double> ret(a.shape());
   for (int i=0; i < a.size(); i++) {
-      ret[i] = Get_exp(a[i]);
+      ret[i] = exp(a[i]);
   }
   return ret;
 }
