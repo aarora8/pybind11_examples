@@ -36,6 +36,8 @@ Matrix<double> Multiply(const Matrix<double> &a, const Matrix<double> &b) {
   size_t a_cols = a.shape()[1];
   size_t b_rows =  b.shape()[0];
   size_t b_cols = b.shape()[1];
+  if (a_cols != b_rows)
+    throw std::length_error("Matrix 'a' and 'b' are inconsistent");
   std::vector<size_t> shape(2);
   shape[0] = a_rows;
   shape[1] = b_cols;
