@@ -31,24 +31,44 @@ Matrix<double> ScalarMultiply(const Matrix<double> &a, const double c)
   return ret;
 }
 
-//TODO: remove argument c. Build c with the desired shape inside this function.
-Matrix<double> Multiply(const Matrix<double> &a, const Matrix<double> &b, 
-    const Matrix<double> &c, const int m, const int l, const int n) {
- // std::vector<size_t> c(6);
- // for ( int i = 0 ; i < 6 ; ++i )
- //     c[i] = 1; 
- // Matrix<double> ret(c);
-  Matrix<double> ret(c.shape()); 
-  for (int i = 0; i < m; i++) {
-    for (int j = 0; j < n; j++) {
-      ret[j + i * n] = 0;
-      for (int k = 0; k < l; k++) {
-        ret[j + i * n] += a[k + i * l] * b[j + k * n];
+Matrix<double> Multiply(const Matrix<double> &a, const Matrix<double> &b) {
+  size_t a_rows =  a.shape()[0];
+  size_t a_cols = a.shape()[1];
+  size_t b_rows =  b.shape()[0];
+  size_t b_cols = b.shape()[1];
+  if (a_cols != b_rows)
+    throw std::length_error("Matrix 'a' and 'b' are inconsistent");
+  std::vector<size_t> mat_dimension = {a_rows, b_cols};
+  Matrix<double> ret(mat_dimension);
+  for (int i = 0; i < a_rows; i++) {
+    for (int j = 0; j < b_cols; j++) {
+      ret[j + i * b_cols] = 0;
+      for (int k = 0; k < a_cols; k++) {
+        ret[j + i * b_cols] += a[k + i * a_cols] * b[j + k * b_cols];
       }
     }
   }
-  // for (int i=0; i<m*n; i++)
-   // std::cout << "ret[" << i << "]" << ret[i] << "\n";
+  return ret;
+}
+
+Matrix<double> Transpose(const Matrix<double> &a) {
+  size_t rows =  a.shape()[0];
+  size_t cols = a.shape()[1];
+  std::vector<size_t> mat_dimension = {cols, rows};
+  Matrix<double> ret(mat_dimension);
+  for (int i = 0; i < rows; i++) {
+    for (int j = 0; j < cols; j++) {
+      ret[i + j * rows] = a[i * cols + j];
+    }
+  }
+  return ret;
+}
+
+Matrix<double> Exp(const Matrix<double> &a) {
+  Matrix<double> ret(a.shape());
+  for (int i=0; i < a.size(); i++) {
+      ret[i] = exp(a[i]);
+  }
   return ret;
 }
 
@@ -63,4 +83,6 @@ PYBIND11_MODULE(example,m)
   m.def("Subtract", &Subtract);
   m.def("ScalarMultiply", &ScalarMultiply);
   m.def("Multiply", &Multiply);
+  m.def("Transpose", &Transpose);
+  m.def("Exp", &Exp);
 }

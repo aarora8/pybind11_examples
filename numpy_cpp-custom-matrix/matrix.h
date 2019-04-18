@@ -29,7 +29,7 @@ class Matrix {
       for (int i = n-2; i >= 0; i--)
         m_strides_[i] = m_strides_[i+1]*m_shape_[i+1];
       
-      int size = m_shape_[0];;
+      int size = m_shape_[0];
       for (int i = 1; i < n; i++)
         size *= m_shape_[i];
       
