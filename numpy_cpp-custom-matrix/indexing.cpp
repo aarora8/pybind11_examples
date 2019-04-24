@@ -9,7 +9,25 @@ using namespace std;
 // dimension at the given index
 Matrix<double> Select(const Matrix<double> &a, const int dim, const int index)
 {
-  Matrix<double> ret(a.shape());
+  size_t a_rows =  a.shape()[0];
+  size_t a_cols =  a.shape()[1];
+  std::vector<size_t> mat_dimension;
+  size_t size;
+  if (dim == 0)
+    size = a_cols;
+  else
+    size = a_rows;
+  mat_dimension.push_back(1);
+  mat_dimension.push_back(size);
+  Matrix<double> ret(mat_dimension);
+  if (dim == 0)
+    for (int i=0; i < size; i++) {
+      ret[i] = a[a_cols * index + i];
+  }
+  else
+    for (int i=0; i < size; i++) {
+      ret[i] = a[i * a_cols + index];
+  }
   return ret;
 }
 
@@ -17,7 +35,38 @@ Matrix<double> Select(const Matrix<double> &a, const int dim, const int index)
 // using the entries in index
 Matrix<double> IndexSelect(const Matrix<double> &a, const int dim, const vector<int> index)
 {
-  Matrix<double> ret(a.shape());
+  size_t a_rows =  a.shape()[0];
+  size_t a_cols =  a.shape()[1];
+  std::vector<size_t> mat_dimension;
+  int dim_1;
+  int dim_2;
+  if (dim == 0) {
+    dim_1 = index.size();
+    dim_2 = a_cols;
+    mat_dimension.push_back(dim_1);
+    mat_dimension.push_back(dim_2);
+  }
+  else {
+    dim_1 = a_rows;
+    dim_2 = index.size();
+    mat_dimension.push_back(dim_1);
+    mat_dimension.push_back(dim_2);
+  }
+  Matrix<double> ret(mat_dimension);
+  if (dim == 0)
+    for (int i = 0; i < dim_1; i++) {
+      int a_index = index[i];
+      for (int j = 0; j < dim_2; j++) {
+        ret[i * dim_2 + j] = a[a_index * dim_2 + j];
+      }
+    }
+  else
+    for (int i = 0; i < dim_1; i++) {
+      for (int j = 0; j < dim_2; j++) {
+        int a_index = index[j];
+        ret[i * dim_2 + j] = a[i * a_cols + a_index];
+      }
+    }
   return ret;
 }
 
